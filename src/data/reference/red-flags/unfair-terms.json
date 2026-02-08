@@ -1,0 +1,197 @@
+{
+  "rules": [
+    {
+      "id": "unlimited-liability-001",
+      "name": "Unlimited Liability Clause",
+      "category": "risk",
+      "severity": "critical",
+      "patterns": [
+        {
+          "type": "phrase",
+          "value": [
+            "unlimited liability",
+            "without limitation",
+            "no cap on liability",
+            "liability shall not be limited",
+            "without limit"
+          ],
+          "context": 300
+        }
+      ],
+      "description": "This clause exposes you to unlimited financial liability, meaning there's no maximum cap on damages you could owe.",
+      "recommendation": "Negotiate a liability cap or maximum amount you could be held responsible for."
+    },
+    {
+      "id": "auto-renewal-001",
+      "name": "Auto-Renewal Without Notice",
+      "category": "risk",
+      "severity": "high",
+      "patterns": [
+        {
+          "type": "proximity",
+          "value": ["automatically renew", "without notice"],
+          "proximity": 50
+        },
+        {
+          "type": "phrase",
+          "value": ["auto-renew", "automatic renewal without"],
+          "context": 200
+        }
+      ],
+      "description": "The contract automatically renews without requiring notice, potentially trapping you in unwanted commitments.",
+      "recommendation": "Request an opt-in renewal process or require advance notice before renewal."
+    },
+    {
+      "id": "unilateral-modification-001",
+      "name": "Unilateral Modification Rights",
+      "category": "risk",
+      "severity": "high",
+      "patterns": [
+        {
+          "type": "phrase",
+          "value": [
+            "may modify at any time",
+            "reserve the right to change",
+            "may amend without notice",
+            "unilateral right to modify"
+          ],
+          "context": 250
+        }
+      ],
+      "description": "The other party can change the contract terms at any time without your consent.",
+      "recommendation": "Require mutual consent for modifications or limit changes to non-material terms."
+    },
+    {
+      "id": "broad-indemnification-001",
+      "name": "Broad Indemnification Clause",
+      "category": "risk",
+      "severity": "critical",
+      "patterns": [
+        {
+          "type": "phrase",
+          "value": [
+            "indemnify and hold harmless",
+            "defend, indemnify and hold",
+            "shall indemnify from any and all"
+          ],
+          "context": 300
+        }
+      ],
+      "description": "You must defend and compensate the other party for any claims, even if they're not your fault.",
+      "recommendation": "Limit indemnification to claims arising from your negligence or breach."
+    },
+    {
+      "id": "ip-assignment-001",
+      "name": "Broad IP Assignment",
+      "category": "risk",
+      "severity": "high",
+      "patterns": [
+        {
+          "type": "phrase",
+          "value": [
+            "all intellectual property created",
+            "assign all rights",
+            "work for hire",
+            "all work product belongs"
+          ],
+          "context": 250
+        }
+      ],
+      "description": "You automatically assign all intellectual property rights to the other party, even for work done outside the contract.",
+      "recommendation": "Limit IP assignment to work specifically created for this contract."
+    },
+    {
+      "id": "penalty-clause-001",
+      "name": "Severe Penalty Clause",
+      "category": "risk",
+      "severity": "high",
+      "patterns": [
+        {
+          "type": "regex",
+          "value": "(penalty|liquidated damages|fine).{0,100}(\\$[0-9,]+|[0-9,]+ dollars)",
+          "context": 200
+        }
+      ],
+      "description": "Contract includes harsh financial penalties that may exceed actual damages.",
+      "recommendation": "Negotiate reasonable penalty amounts tied to actual potential losses."
+    },
+    {
+      "id": "jurisdiction-clause-001",
+      "name": "Inconvenient Jurisdiction",
+      "category": "risk",
+      "severity": "medium",
+      "patterns": [
+        {
+          "type": "phrase",
+          "value": [
+            "exclusive jurisdiction",
+            "courts of",
+            "governing law shall be"
+          ],
+          "context": 150
+        }
+      ],
+      "description": "Legal disputes must be handled in a specific jurisdiction that may be inconvenient or unfavorable.",
+      "recommendation": "Negotiate for mutual jurisdiction or arbitration in a neutral location."
+    },
+    {
+      "id": "termination-difficulty-001",
+      "name": "Difficult Termination Terms",
+      "category": "risk",
+      "severity": "high",
+      "patterns": [
+        {
+          "type": "phrase",
+          "value": [
+            "may not terminate",
+            "termination fee",
+            "early termination penalty",
+            "locked in for"
+          ],
+          "context": 200
+        }
+      ],
+      "description": "Exiting the contract is difficult or expensive, potentially trapping you in unfavorable terms.",
+      "recommendation": "Negotiate termination for convenience with reasonable notice period."
+    },
+    {
+      "id": "confidentiality-perpetual-001",
+      "name": "Perpetual Confidentiality",
+      "category": "risk",
+      "severity": "medium",
+      "patterns": [
+        {
+          "type": "phrase",
+          "value": [
+            "confidentiality survives indefinitely",
+            "perpetual confidentiality",
+            "confidential in perpetuity"
+          ],
+          "context": 200
+        }
+      ],
+      "description": "Confidentiality obligations last forever, which may be unreasonable for information that becomes public.",
+      "recommendation": "Limit confidentiality to 3-5 years or until information becomes publicly available."
+    },
+    {
+      "id": "warranty-disclaimer-001",
+      "name": "Complete Warranty Disclaimer",
+      "category": "risk",
+      "severity": "high",
+      "patterns": [
+        {
+          "type": "phrase",
+          "value": [
+            "as is",
+            "without warranty",
+            "disclaims all warranties",
+            "no warranties of any kind"
+          ],
+          "context": 200
+        }
+      ],
+      "description": "The other party provides no guarantees about quality, functionality, or fitness for purpose.",
+      "recommendation": "Request specific warranties for core functionality and merchantability."
+    }
+  ]
+}

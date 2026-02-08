@@ -1,0 +1,54 @@
+{
+  "contractType": "nda",
+  "displayName": "Non-Disclosure Agreement",
+  "identifiers": [
+    "non-disclosure agreement",
+    "nda",
+    "confidentiality agreement",
+    "confidential disclosure"
+  ],
+  "requiredSections": [
+    {
+      "id": "definition-confidential",
+      "name": "Definition of Confidential Information",
+      "importance": "critical",
+      "keywords": ["confidential information", "proprietary", "defined as"],
+      "description": "Clear definition of what is considered confidential"
+    },
+    {
+      "id": "mutual-obligations",
+      "name": "Mutual or One-Way",
+      "importance": "high",
+      "keywords": ["mutual", "both parties", "unilateral", "one-way"],
+      "description": "Whether confidentiality obligations are mutual or one-sided"
+    },
+    {
+      "id": "permitted-use",
+      "name": "Permitted Use",
+      "importance": "high",
+      "keywords": ["purpose", "use", "permitted", "authorized"],
+      "description": "What you're allowed to do with the confidential information"
+    },
+    {
+      "id": "duration",
+      "name": "Duration of Confidentiality",
+      "importance": "critical",
+      "keywords": ["term", "duration", "years", "period"],
+      "description": "How long the confidentiality obligations last"
+    },
+    {
+      "id": "exclusions",
+      "name": "Exclusions",
+      "importance": "high",
+      "keywords": ["exclude", "not confidential", "public domain", "independently developed"],
+      "description": "What information is NOT considered confidential"
+    },
+    {
+      "id": "return-destruction",
+      "name": "Return or Destruction",
+      "importance": "medium",
+      "keywords": ["return", "destroy", "delete", "upon termination"],
+      "description": "What happens to confidential information when the agreement ends"
+    }
+  ]
+}

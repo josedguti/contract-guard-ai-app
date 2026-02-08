@@ -1,0 +1,69 @@
+{
+  "contractType": "saas",
+  "displayName": "SaaS Agreement",
+  "identifiers": [
+    "software as a service",
+    "saas",
+    "subscription",
+    "cloud service",
+    "hosted software"
+  ],
+  "requiredSections": [
+    {
+      "id": "service-description",
+      "name": "Service Description",
+      "importance": "high",
+      "keywords": ["services", "software", "platform", "features", "functionality"],
+      "description": "Clear description of what services are provided"
+    },
+    {
+      "id": "data-protection",
+      "name": "Data Protection & Privacy",
+      "importance": "critical",
+      "keywords": ["data", "privacy", "GDPR", "confidential", "personal information", "data protection"],
+      "description": "How your data is protected and privacy compliance"
+    },
+    {
+      "id": "service-level",
+      "name": "Service Level Agreement (SLA)",
+      "importance": "high",
+      "keywords": ["uptime", "availability", "service level", "SLA", "performance"],
+      "description": "Guaranteed uptime and performance standards"
+    },
+    {
+      "id": "liability-limitation",
+      "name": "Limitation of Liability",
+      "importance": "critical",
+      "keywords": ["liability", "limitation", "damages", "cap"],
+      "description": "Limits on liability should be reasonable and mutual"
+    },
+    {
+      "id": "termination",
+      "name": "Termination Rights",
+      "importance": "high",
+      "keywords": ["termination", "cancel", "end", "terminate"],
+      "description": "How and when you can end the agreement"
+    },
+    {
+      "id": "payment-terms",
+      "name": "Payment Terms",
+      "importance": "high",
+      "keywords": ["payment", "fees", "pricing", "billing", "charges"],
+      "description": "Clear pricing and payment schedule"
+    },
+    {
+      "id": "data-ownership",
+      "name": "Data Ownership",
+      "importance": "critical",
+      "keywords": ["ownership", "your data", "customer data", "proprietary"],
+      "description": "Confirmation that you own your data"
+    },
+    {
+      "id": "security",
+      "name": "Security Measures",
+      "importance": "high",
+      "keywords": ["security", "encryption", "secure", "protection"],
+      "description": "Security measures to protect your data"
+    }
+  ]
+}

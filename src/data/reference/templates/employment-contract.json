@@ -1,0 +1,69 @@
+{
+  "contractType": "employment",
+  "displayName": "Employment Agreement",
+  "identifiers": [
+    "employment agreement",
+    "employment contract",
+    "offer letter",
+    "job offer",
+    "employee"
+  ],
+  "requiredSections": [
+    {
+      "id": "job-description",
+      "name": "Job Description",
+      "importance": "high",
+      "keywords": ["position", "title", "role", "responsibilities", "duties"],
+      "description": "Clear description of your job role and responsibilities"
+    },
+    {
+      "id": "compensation",
+      "name": "Compensation",
+      "importance": "critical",
+      "keywords": ["salary", "compensation", "pay", "wages", "benefits"],
+      "description": "Your salary and benefits package"
+    },
+    {
+      "id": "working-hours",
+      "name": "Working Hours",
+      "importance": "high",
+      "keywords": ["hours", "schedule", "full-time", "part-time", "overtime"],
+      "description": "Expected working hours and overtime policy"
+    },
+    {
+      "id": "termination",
+      "name": "Termination Clause",
+      "importance": "critical",
+      "keywords": ["termination", "notice", "severance", "at-will"],
+      "description": "How employment can be terminated and notice requirements"
+    },
+    {
+      "id": "benefits",
+      "name": "Benefits",
+      "importance": "high",
+      "keywords": ["benefits", "vacation", "health", "insurance", "pto"],
+      "description": "Health insurance, vacation, and other benefits"
+    },
+    {
+      "id": "ip-rights",
+      "name": "Intellectual Property Rights",
+      "importance": "high",
+      "keywords": ["intellectual property", "inventions", "patents", "copyright"],
+      "description": "Who owns work created during employment"
+    },
+    {
+      "id": "confidentiality",
+      "name": "Confidentiality",
+      "importance": "high",
+      "keywords": ["confidential", "proprietary", "non-disclosure"],
+      "description": "Obligations to keep company information confidential"
+    },
+    {
+      "id": "non-compete",
+      "name": "Non-Compete Clause",
+      "importance": "medium",
+      "keywords": ["non-compete", "restrictive covenant", "competition"],
+      "description": "Restrictions on working for competitors (review carefully)"
+    }
+  ]
+}

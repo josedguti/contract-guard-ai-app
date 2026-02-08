@@ -1,0 +1,46 @@
+{
+  "keywords": [
+    {
+      "term": "non-compete",
+      "severity": "high",
+      "description": "May restrict your ability to work in your field",
+      "context": "employment"
+    },
+    {
+      "term": "non-solicitation",
+      "severity": "medium",
+      "description": "Prevents you from hiring or contacting certain people",
+      "context": "employment"
+    },
+    {
+      "term": "exclusive",
+      "severity": "medium",
+      "description": "May prevent you from working with competitors or similar parties",
+      "context": "general"
+    },
+    {
+      "term": "perpetual",
+      "severity": "high",
+      "description": "Obligations that last forever",
+      "context": "general"
+    },
+    {
+      "term": "irrevocable",
+      "severity": "high",
+      "description": "Rights or licenses that cannot be taken back",
+      "context": "general"
+    },
+    {
+      "term": "sole discretion",
+      "severity": "medium",
+      "description": "The other party has complete control over decisions",
+      "context": "general"
+    },
+    {
+      "term": "mandatory arbitration",
+      "severity": "medium",
+      "description": "You cannot sue in court, only use arbitration",
+      "context": "general"
+    }
+  ]
+}
