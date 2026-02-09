@@ -1,5 +1,5 @@
 {
-  "name": "legal-contract-analyzer",
+  "name": "contractguard",
   "version": "0.1.0",
   "private": true,
   "scripts": {

@@ -29,12 +29,14 @@ A privacy-first web application that helps users understand legal contracts by u
 ## Installation
 
 1. **Clone the repository**:
+
 ```bash
 git clone <repository-url>
 cd legal-contract-analyzer
 ```
 
 2. **Install dependencies**:
+
 ```bash
 npm install
 ```
@@ -55,17 +57,19 @@ NODE_ENV=development
 ```
 
 **To generate a secure SESSION_SECRET**, run:
+
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
 4. **Run the development server**:
+
 ```bash
 npm run dev
 ```
 
 5. **Open your browser**:
-Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## Usage
 
@@ -111,22 +115,26 @@ legal-contract-analyzer/
 ## How It Works
 
 ### 1. Upload & OCR
+
 - User uploads PDF or image
 - Client-side OCR extracts text using Tesseract.js
 - For PDFs, each page is converted to an image first
 
 ### 2. Rules Engine Analysis (Client-Side)
+
 - Pattern matching detects risky clauses
 - Checks for missing required terms
 - Extracts obligations and deadlines
 - Calculates risk score (0-100)
 
 ### 3. AI Analysis (Server-Side)
+
 - Sends extracted text + rules results to API
 - OpenAI GPT-4 generates plain-English insights
 - Returns summary, key findings, and recommendations
 
 ### 4. Session Management
+
 - JWT token tracks scan count
 - HTTP-only cookie, 24-hour expiration
 - 3 scans per session limit
@@ -183,6 +191,7 @@ Edit files in `src/data/reference/templates/`:
 ## Deployment to Vercel
 
 1. **Push to GitHub**:
+
 ```bash
 git init
 git add .
@@ -235,21 +244,25 @@ git push -u origin main
 ## Troubleshooting
 
 ### OCR fails with "Worker not found"
+
 - Ensure Tesseract CDN is accessible
 - Check browser console for errors
 - Try refreshing the page
 
 ### AI analysis fails
+
 - Verify `OPENAI_API_KEY` is set correctly
 - Check API key has credits
 - Review server logs for errors
 
 ### Session not working
+
 - Verify `SESSION_SECRET` is set (min 32 chars)
 - Clear browser cookies
 - Check if cookies are enabled
 
 ### Build errors
+
 - Run `npm install` again
 - Delete `node_modules` and `.next`, then reinstall
 - Check Node.js version (18+ required)
