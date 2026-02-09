@@ -1,4 +1,4 @@
-import { AnalysisResult } from '@/types/analysis';
+import { AnalysisResult } from "@/types/analysis";
 
 /**
  * Prompt Templates for OpenAI GPT-4
@@ -29,15 +29,17 @@ Guidelines:
    */
   static buildAnalysisPrompt(
     contractText: string,
-    rulesAnalysis: Partial<AnalysisResult>
+    rulesAnalysis: Partial<AnalysisResult>,
   ): string {
-    const { riskScore, detectedClauses, missingTerms, obligations } = rulesAnalysis;
+    const { riskScore, detectedClauses, missingTerms, obligations } =
+      rulesAnalysis;
 
     // Truncate contract text if too long (stay under token limits)
     const maxTextLength = 6000; // Approximately 1500 tokens
     const truncatedText =
       contractText.length > maxTextLength
-        ? contractText.slice(0, maxTextLength) + '\n\n[...text truncated for length...]'
+        ? contractText.slice(0, maxTextLength) +
+          "\n\n[...text truncated for length...]"
         : contractText;
 
     let prompt = `Please analyze this contract and provide insights:\n\n`;
@@ -58,7 +60,7 @@ Guidelines:
       detectedClauses.slice(0, 5).forEach((clause) => {
         prompt += `- ${clause.rule.name} (${clause.severity}): ${clause.rule.description}\n`;
       });
-      prompt += '\n';
+      prompt += "\n";
     }
 
     // Add missing terms
@@ -67,7 +69,7 @@ Guidelines:
       missingTerms.slice(0, 5).forEach((term) => {
         prompt += `- ${term.name} (${term.importance}): ${term.description}\n`;
       });
-      prompt += '\n';
+      prompt += "\n";
     }
 
     // Add obligations
@@ -76,7 +78,7 @@ Guidelines:
       obligations.slice(0, 5).forEach((obligation) => {
         prompt += `- ${obligation.type}: ${obligation.description}\n`;
       });
-      prompt += '\n';
+      prompt += "\n";
     }
 
     prompt += `## Contract Text\n${truncatedText}\n\n`;
@@ -84,8 +86,8 @@ Guidelines:
     prompt += `## Your Analysis\n`;
     prompt += `Please provide:\n`;
     prompt += `1. **Summary** (2-3 sentences): What is this contract about?\n`;
-    prompt += `2. **Key Findings** (3-5 bullet points): Most important things to know\n`;
-    prompt += `3. **Recommendations** (3-5 bullet points): Specific actions to take\n`;
+    prompt += `2. **Key Findings** (3-4 bullet points): Most important things to know\n`;
+    prompt += `3. **Recommendations** (3-4 bullet points): Specific actions to take\n`;
     prompt += `4. **Critical Warnings** (if any): Urgent issues that need immediate attention\n\n`;
     prompt += `Keep your response concise and actionable. Focus on what matters most.`;
 
@@ -102,54 +104,105 @@ Guidelines:
     warnings: string[];
   } {
     const sections = {
-      summary: '',
+      summary: "",
       keyFindings: [] as string[],
       recommendations: [] as string[],
       warnings: [] as string[],
     };
 
-    // Try numbered format first (GPT-5 style: "1) Summary")
-    const summaryMatch = response.match(/1\)\s*Summary[^\n]*\n(.*?)(?=\n\d\)|$)/is);
+    // Try numbered format with period: "1. Summary"
+    const summaryMatch = response.match(
+      /1\.\s*Summary[^\n]*\n(.*?)(?=\n\d\.|$)/is,
+    );
     if (summaryMatch) {
-      sections.summary = summaryMatch[1].trim();
+      sections.summary = this.cleanSummaryText(summaryMatch[1].trim());
     } else {
-      // Fallback to markdown format (GPT-4 style: "**Summary**")
-      const summaryMatchMd = response.match(/\*\*Summary\*\*[:\s]*(.*?)(?=\*\*|$)/is);
-      if (summaryMatchMd) {
-        sections.summary = summaryMatchMd[1].trim();
+      // Try with parenthesis: "1) Summary"
+      const summaryMatchParen = response.match(
+        /1\)\s*Summary[^\n]*\n(.*?)(?=\n\d\)|$)/is,
+      );
+      if (summaryMatchParen) {
+        sections.summary = this.cleanSummaryText(summaryMatchParen[1].trim());
+      } else {
+        // Fallback to markdown format: "**Summary**"
+        const summaryMatchMd = response.match(
+          /\*\*Summary\*\*[:\s]*(.*?)(?=\*\*|$)/is,
+        );
+        if (summaryMatchMd) {
+          sections.summary = this.cleanSummaryText(summaryMatchMd[1].trim());
+        }
       }
     }
 
-    // Extract Key Findings
-    const keyFindingsMatch = response.match(/2\)\s*Key findings[^\n]*\n(.*?)(?=\n\d\)|$)/is);
+    // Extract Key Findings (case-insensitive)
+    const keyFindingsMatch = response.match(
+      /2\.\s*Key [Ff]indings[^\n]*\n(.*?)(?=\n\d\.|$)/is,
+    );
     if (keyFindingsMatch) {
       sections.keyFindings = this.extractBulletPoints(keyFindingsMatch[1]);
     } else {
-      const keyFindingsMatchMd = response.match(/\*\*Key Findings\*\*[:\s]*(.*?)(?=\*\*|$)/is);
-      if (keyFindingsMatchMd) {
-        sections.keyFindings = this.extractBulletPoints(keyFindingsMatchMd[1]);
+      const keyFindingsMatchParen = response.match(
+        /2\)\s*Key [Ff]indings[^\n]*\n(.*?)(?=\n\d\)|$)/is,
+      );
+      if (keyFindingsMatchParen) {
+        sections.keyFindings = this.extractBulletPoints(keyFindingsMatchParen[1]);
+      } else {
+        const keyFindingsMatchMd = response.match(
+          /\*\*Key Findings\*\*[:\s]*(.*?)(?=\*\*|$)/is,
+        );
+        if (keyFindingsMatchMd) {
+          sections.keyFindings = this.extractBulletPoints(keyFindingsMatchMd[1]);
+        }
       }
     }
 
     // Extract Recommendations
-    const recommendationsMatch = response.match(/3\)\s*Recommendations[^\n]*\n(.*?)(?=\n\d\)|$)/is);
+    const recommendationsMatch = response.match(
+      /3\.\s*Recommendations[^\n]*\n(.*?)(?=\n\d\.|$)/is,
+    );
     if (recommendationsMatch) {
-      sections.recommendations = this.extractBulletPoints(recommendationsMatch[1]);
+      sections.recommendations = this.extractBulletPoints(
+        recommendationsMatch[1],
+      );
     } else {
-      const recommendationsMatchMd = response.match(/\*\*Recommendations\*\*[:\s]*(.*?)(?=\*\*|$)/is);
-      if (recommendationsMatchMd) {
-        sections.recommendations = this.extractBulletPoints(recommendationsMatchMd[1]);
+      const recommendationsMatchParen = response.match(
+        /3\)\s*Recommendations[^\n]*\n(.*?)(?=\n\d\)|$)/is,
+      );
+      if (recommendationsMatchParen) {
+        sections.recommendations = this.extractBulletPoints(
+          recommendationsMatchParen[1],
+        );
+      } else {
+        const recommendationsMatchMd = response.match(
+          /\*\*Recommendations\*\*[:\s]*(.*?)(?=\*\*|$)/is,
+        );
+        if (recommendationsMatchMd) {
+          sections.recommendations = this.extractBulletPoints(
+            recommendationsMatchMd[1],
+          );
+        }
       }
     }
 
-    // Extract Warnings
-    const warningsMatch = response.match(/4\)\s*Critical warnings[^\n]*\n(.*?)(?=\n\d\)|$)/is);
+    // Extract Warnings (case-insensitive)
+    const warningsMatch = response.match(
+      /4\.\s*Critical [Ww]arnings[^\n]*\n(.*?)(?=\n\d\.|$)/is,
+    );
     if (warningsMatch) {
       sections.warnings = this.extractBulletPoints(warningsMatch[1]);
     } else {
-      const warningsMatchMd = response.match(/\*\*(?:Critical )?Warnings?\*\*[:\s]*(.*?)(?=\*\*|$)/is);
-      if (warningsMatchMd) {
-        sections.warnings = this.extractBulletPoints(warningsMatchMd[1]);
+      const warningsMatchParen = response.match(
+        /4\)\s*Critical [Ww]arnings[^\n]*\n(.*?)(?=\n\d\)|$)/is,
+      );
+      if (warningsMatchParen) {
+        sections.warnings = this.extractBulletPoints(warningsMatchParen[1]);
+      } else {
+        const warningsMatchMd = response.match(
+          /\*\*(?:Critical )?Warnings?\*\*[:\s]*(.*?)(?=\*\*|$)/is,
+        );
+        if (warningsMatchMd) {
+          sections.warnings = this.extractBulletPoints(warningsMatchMd[1]);
+        }
       }
     }
 
@@ -157,10 +210,18 @@ Guidelines:
   }
 
   /**
+   * Clean summary text by removing leading bullets/dashes
+   */
+  private static cleanSummaryText(text: string): string {
+    // Remove leading dashes, bullets, or asterisks
+    return text.replace(/^[-*•]\s*/, '').trim();
+  }
+
+  /**
    * Extract bullet points from text
    */
   private static extractBulletPoints(text: string): string[] {
-    const lines = text.split('\n');
+    const lines = text.split("\n");
     const bullets: string[] = [];
 
     for (const line of lines) {

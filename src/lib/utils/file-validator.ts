@@ -14,11 +14,13 @@ export class FileValidator {
     'image/jpeg',
     'image/jpg',
     'image/png',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+    'application/msword', // .doc
   ];
 
   static readonly MAX_SIZE = 10 * 1024 * 1024; // 10MB
 
-  static readonly ALLOWED_EXTENSIONS = ['.pdf', '.jpg', '.jpeg', '.png'];
+  static readonly ALLOWED_EXTENSIONS = ['.pdf', '.jpg', '.jpeg', '.png', '.doc', '.docx'];
 
   /**
    * Validate file type and size
@@ -31,7 +33,7 @@ export class FileValidator {
       if (!this.ALLOWED_EXTENSIONS.includes(extension)) {
         return {
           valid: false,
-          error: 'Invalid file type. Please upload a PDF or image (JPG, PNG).',
+          error: 'Invalid file type. Please upload a PDF, Word document (DOC, DOCX), or image (JPG, PNG).',
         };
       }
     }
@@ -90,6 +92,17 @@ export class FileValidator {
     return (
       file.type.startsWith('image/') ||
       ['.jpg', '.jpeg', '.png'].includes(this.getExtension(file.name))
+    );
+  }
+
+  /**
+   * Check if file is Word document
+   */
+  static isWordDocument(file: File): boolean {
+    return (
+      file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      file.type === 'application/msword' ||
+      ['.doc', '.docx'].includes(this.getExtension(file.name))
     );
   }
 }

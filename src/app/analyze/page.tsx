@@ -91,7 +91,7 @@ export default function AnalyzePage() {
                       <label>
                         <input
                           type="file"
-                          accept=".pdf,.jpg,.jpeg,.png"
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                           onChange={fileUpload.handleFileInput}
                           className="hidden"
                         />
@@ -100,7 +100,7 @@ export default function AnalyzePage() {
                         </span>
                       </label>
                       <p className="text-sm text-gray-500 mt-4">
-                        PDF, JPG, or PNG • Max 10MB
+                        PDF, Word (DOC/DOCX), JPG, or PNG • Max 10MB
                       </p>
                     </>
                   ) : (

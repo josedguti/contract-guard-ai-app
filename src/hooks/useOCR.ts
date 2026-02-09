@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import Tesseract from 'tesseract.js';
 import { PDFProcessor } from '@/lib/ocr/pdf-processor';
+import { WordProcessor } from '@/lib/ocr/word-processor';
 import { TextCleaner } from '@/lib/ocr/text-cleaner';
 import { FileValidator } from '@/lib/utils/file-validator';
 
@@ -21,33 +22,45 @@ export function useOCR() {
       setStatus('Preparing...');
 
       const isPDF = FileValidator.isPDF(file);
-      let images: string[] = [];
-
-      if (isPDF) {
-        setStatus('Converting PDF to images...');
-        const pdfPages = await PDFProcessor.convertToImages(file, (prog) => {
-          setProgress(prog * 0.3); // PDF conversion is 30% of progress
-        });
-        images = pdfPages.map((page) => page.imageUrl);
-      } else {
-        images = [URL.createObjectURL(file)];
-      }
-
-      setStatus('Extracting text with OCR...');
-
+      const isWord = FileValidator.isWordDocument(file);
       let fullText = '';
-      for (let i = 0; i < images.length; i++) {
-        const { data } = await Tesseract.recognize(images[i], 'eng', {
-          logger: (m) => {
-            if (m.status === 'recognizing text') {
-              const pageProgress = m.progress / images.length;
-              const totalProgress = 30 + (i / images.length) * 70 + pageProgress * 70;
-              setProgress(totalProgress);
-            }
-          },
-        });
 
-        fullText += data.text + '\n\n';
+      // Handle Word documents - direct text extraction, no OCR needed
+      if (isWord) {
+        setStatus('Extracting text from Word document...');
+        setProgress(30);
+        fullText = await WordProcessor.extractText(file);
+        setProgress(70);
+      }
+      // Handle PDFs and images - OCR needed
+      else {
+        let images: string[] = [];
+
+        if (isPDF) {
+          setStatus('Converting PDF to images...');
+          const pdfPages = await PDFProcessor.convertToImages(file, (prog) => {
+            setProgress(prog * 0.3); // PDF conversion is 30% of progress
+          });
+          images = pdfPages.map((page) => page.imageUrl);
+        } else {
+          images = [URL.createObjectURL(file)];
+        }
+
+        setStatus('Extracting text with OCR...');
+
+        for (let i = 0; i < images.length; i++) {
+          const { data } = await Tesseract.recognize(images[i], 'eng', {
+            logger: (m) => {
+              if (m.status === 'recognizing text') {
+                const pageProgress = m.progress / images.length;
+                const totalProgress = 30 + (i / images.length) * 70 + pageProgress * 70;
+                setProgress(totalProgress);
+              }
+            },
+          });
+
+          fullText += data.text + '\n\n';
+        }
       }
 
       setStatus('Cleaning text...');
